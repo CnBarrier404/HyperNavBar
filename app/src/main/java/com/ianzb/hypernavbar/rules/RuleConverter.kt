@@ -1,6 +1,5 @@
 package com.ianzb.hypernavbar.rules
 
-import org.json.JSONArray
 import org.json.JSONObject
 import java.io.File
 
