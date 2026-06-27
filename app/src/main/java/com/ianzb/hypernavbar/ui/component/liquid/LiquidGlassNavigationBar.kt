@@ -7,7 +7,6 @@ package com.ianzb.hypernavbar.ui.component.liquid
 
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.EaseOut
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.animation.core.spring
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable

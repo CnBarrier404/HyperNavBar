@@ -198,10 +198,7 @@ fun RulesPageView(
     }
 
     // 1s ticker: refresh UI + trigger auto-update + auto-apply
-    LaunchedEffect(Unit) {
-        val intervalMinutes = applyIntervalMinutes
-        val applyIntervalMs = intervalMinutes * 60_000L
-
+    LaunchedEffect(applyIntervalMinutes) {
         while (true) {
             delay(1000.milliseconds)
             tick++
@@ -230,6 +227,7 @@ fun RulesPageView(
             }
 
             // Auto-apply rules
+            val applyIntervalMs = applyIntervalMinutes * 60_000L
             if (applyIntervalMs > 0 && lastApplyTime > 0 &&
                 System.currentTimeMillis() - lastApplyTime >= applyIntervalMs
             ) {
