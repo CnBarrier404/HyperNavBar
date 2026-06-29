@@ -74,7 +74,7 @@ jobs:
       - name: 重命名 APK
         run: |
           FINAL_VERSION="${{ steps.update_version.outputs.final_version }}"
-          mv app/build/outputs/apk/release/app-arm64-v8a-release.apk \
+          mv app/build/outputs/apk/release/app-arm64-v8a-release-unsigned.apk \
              ${PROGRAM_NAME}_${FINAL_VERSION}.apk
 
       - name: 提交版本更新
