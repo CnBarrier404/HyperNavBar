@@ -12,6 +12,7 @@ data class AppSettings(
     val isFloatingNavbar: Boolean = false,
     val isLiquidGlass: Boolean = false,
     val applyIntervalMinutes: Int = 0,
+    val autoApplyAfterEdit: Boolean = true,
     val language: String = "",
     val forcedMode: String = "auto",
     val rulesConfigsJson: String = "",
@@ -22,6 +23,7 @@ data class AppSettings(
         json.put("isFloatingNavbar", isFloatingNavbar)
         json.put("isLiquidGlass", isLiquidGlass)
         json.put("applyIntervalMinutes", applyIntervalMinutes)
+        json.put("autoApplyAfterEdit", autoApplyAfterEdit)
         json.put("language", language)
         json.put("forcedMode", forcedMode)
         json.put("rulesConfigs", JSONArray(rulesConfigsJson.ifEmpty { "[]" }))
@@ -37,6 +39,7 @@ data class AppSettings(
                     isFloatingNavbar = obj.optBoolean("isFloatingNavbar", false),
                     isLiquidGlass = obj.optBoolean("isLiquidGlass", false),
                     applyIntervalMinutes = obj.optInt("applyIntervalMinutes", 0),
+                    autoApplyAfterEdit = obj.optBoolean("autoApplyAfterEdit", true),
                     language = obj.optString("language", ""),
                     forcedMode = obj.optString("forcedMode", "auto"),
                     rulesConfigsJson = obj.optJSONArray("rulesConfigs")?.toString() ?: "",
@@ -51,6 +54,7 @@ data class AppSettings(
         private const val KEY_FLOATING_NAVBAR = "floating_navbar"
         private const val KEY_LIQUID_GLASS = "liquid_glass"
         private const val KEY_APPLY_INTERVAL = "apply_interval"
+        private const val KEY_AUTO_APPLY_AFTER_EDIT = "auto_apply_after_edit"
 
         fun load(context: Context): AppSettings {
             val prefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
@@ -61,6 +65,7 @@ data class AppSettings(
                 isFloatingNavbar = prefs.getBoolean(KEY_FLOATING_NAVBAR, false),
                 isLiquidGlass = prefs.getBoolean(KEY_LIQUID_GLASS, false),
                 applyIntervalMinutes = prefs.getInt(KEY_APPLY_INTERVAL, 0),
+                autoApplyAfterEdit = prefs.getBoolean(KEY_AUTO_APPLY_AFTER_EDIT, true),
                 language = language,
                 forcedMode = forcedMode,
             )
@@ -72,6 +77,7 @@ data class AppSettings(
                 putBoolean(KEY_FLOATING_NAVBAR, settings.isFloatingNavbar)
                 putBoolean(KEY_LIQUID_GLASS, settings.isLiquidGlass)
                 putInt(KEY_APPLY_INTERVAL, settings.applyIntervalMinutes)
+                putBoolean(KEY_AUTO_APPLY_AFTER_EDIT, settings.autoApplyAfterEdit)
             }
             // Restore language
             val lang = LocaleHelper.Language.entries.find { it.code == settings.language } ?: LocaleHelper.Language.SYSTEM

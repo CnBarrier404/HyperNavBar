@@ -31,6 +31,9 @@
     <string name="rules_apply_interval_summary">Set the interval for automatic rule application (minutes, 0=off)</string>
     <string name="rules_apply_interval_value">%d min</string>
     <string name="rules_apply_interval_off">Off</string>
+    <string name="auto_apply_after_edit">Auto-apply after edit</string>
+    <string name="auto_apply_after_edit_summary">Automatically apply rules after manually editing and confirming</string>
+    <string name="rules_auto_applied">Rules auto-applied</string>
     <string name="rules_confirm">Confirm</string>
     <string name="rules_delete">Delete</string>
     <string name="rules_delete_confirm">Delete this subscription?</string>
@@ -189,7 +192,7 @@
     <string name="editor_app_name_optional">App Name (Optional)</string>
     <string name="editor_activity_name_hint">Activity Name (e.g. com.example.MainActivity or *)</string>
     <string name="editor_rgba_hint">RGBA (Format: R, G, B, A)</string>
-    <string name="editor_hex_hint">HEX (Format: #RRGGBB / #RRGGBBAA)</string>
+    <string name="editor_hex_hint">HEX (Format: #RRGGBBAA)</string>
 
     <!-- Editor – dialogs -->
     <string name="editor_confirm_delete">Confirm Delete</string>
@@ -206,6 +209,10 @@
     <!-- Editor – floating identify -->
     <string name="editor_floating_identify">Floating Identify</string>
     <string name="editor_floating_identify_summary">Identify current foreground app info</string>
+    <string name="editor_floating_identify_root_required">Root permission required</string>
+    <string name="editor_floating_identify_started">Floating identify started</string>
+    <string name="editor_floating_title">App Identifier</string>
+    <string name="editor_floating_waiting">Waiting for foreground app…</string>
     <string name="editor_overlay_permission_required">Overlay permission required</string>
     <string name="editor_accessibility_required">Accessibility permission required</string>
     <string name="editor_floating_pkg">Package</string>
@@ -213,8 +220,20 @@
     <string name="editor_floating_activity">Activity</string>
     <string name="editor_floating_add">Quick Add</string>
     <string name="editor_floating_close">Close Overlay</string>
-    <string name="editor_copied_toast">Copied: %s</string>
+    <string name="editor_floating_history">History</string>
+    <string name="editor_floating_back_to_current">Back to Current</string>
+    <string name="editor_screen_color_pick">Pick Color</string>
+    <string name="editor_screen_color_pick_title">Screen Color Picker</string>
+    <string name="editor_screen_color_confirm">Confirm</string>
+    <string name="editor_screen_color_cancel">Cancel</string>
+    <string name="editor_screen_color_hint">Open target screen then capture</string>
+    <string name="editor_screen_color_capture">Capture</string>
+    <string name="editor_copied_toast">Copied</string>
     <string name="editor_floating_identifying">Identifying…</string>
+    <string name="editor_no_app_detected">No foreground app detected</string>
+    <string name="editor_sent_to_editor">Sent to editor</string>
+    <string name="editor_floating_notification_title">App Identifier Active</string>
+    <string name="editor_floating_notification_text">Tap to return to HyperNavBar</string>
     <string name="editor_drag_hint">Long press to drag</string>
     <string name="editor_edit_cloud_cache">Edit Cloud Cache</string>
     <string name="editor_rule_name">Rule Name</string>

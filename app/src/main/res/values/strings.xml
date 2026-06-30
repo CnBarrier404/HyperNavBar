@@ -31,6 +31,9 @@
     <string name="rules_apply_interval_summary">设置自动应用规则的间隔时间（分钟，0=不自动）</string>
     <string name="rules_apply_interval_value">%d 分钟</string>
     <string name="rules_apply_interval_off">关闭</string>
+    <string name="auto_apply_after_edit">更改后自动应用</string>
+    <string name="auto_apply_after_edit_summary">手动修改规则并确认后将自动点击应用</string>
+    <string name="rules_auto_applied">已自动应用规则</string>
     <string name="rules_confirm">确认</string>
     <string name="rules_delete">删除</string>
     <string name="rules_delete_confirm">确定删除此订阅？</string>
@@ -189,7 +192,7 @@
     <string name="editor_app_name_optional">应用名称（可选）</string>
     <string name="editor_activity_name_hint">活动名称（如 com.example.MainActivity 或 *）</string>
     <string name="editor_rgba_hint">RGBA（格式：R, G, B, A）</string>
-    <string name="editor_hex_hint">HEX（格式：#RRGGBB / #RRGGBBAA）</string>
+    <string name="editor_hex_hint">HEX（格式：#RRGGBBAA）</string>
 
     <!-- Editor – dialogs -->
     <string name="editor_confirm_delete">确认删除</string>
@@ -206,6 +209,10 @@
     <!-- Editor – floating identify -->
     <string name="editor_floating_identify">悬浮窗识别</string>
     <string name="editor_floating_identify_summary">开启后可识别当前前台应用信息</string>
+    <string name="editor_floating_identify_root_required">需要 Root 权限</string>
+    <string name="editor_floating_identify_started">悬浮窗识别已启动</string>
+    <string name="editor_floating_title">应用识别</string>
+    <string name="editor_floating_waiting">等待前台应用…</string>
     <string name="editor_overlay_permission_required">需要悬浮窗权限</string>
     <string name="editor_accessibility_required">需要无障碍权限</string>
     <string name="editor_floating_pkg">包名</string>
@@ -213,8 +220,20 @@
     <string name="editor_floating_activity">活动ID</string>
     <string name="editor_floating_add">一键添加</string>
     <string name="editor_floating_close">关闭悬浮窗</string>
-    <string name="editor_copied_toast">已复制：%s</string>
+    <string name="editor_floating_history">历史记录</string>
+    <string name="editor_floating_back_to_current">返回当前</string>
+    <string name="editor_screen_color_pick">屏幕取色</string>
+    <string name="editor_screen_color_pick_title">屏幕取色</string>
+    <string name="editor_screen_color_confirm">确认取色</string>
+    <string name="editor_screen_color_cancel">取消</string>
+    <string name="editor_screen_color_hint">打开目标界面后截图</string>
+    <string name="editor_screen_color_capture">截图</string>
+    <string name="editor_copied_toast">已复制</string>
     <string name="editor_floating_identifying">正在识别…</string>
+    <string name="editor_no_app_detected">未检测到前台应用</string>
+    <string name="editor_sent_to_editor">已发送到编辑器</string>
+    <string name="editor_floating_notification_title">应用识别已开启</string>
+    <string name="editor_floating_notification_text">点击返回 HyperNavBar</string>
     <string name="editor_drag_hint">长按拖拽排序</string>
     <string name="editor_edit_cloud_cache">编辑云端缓存</string>
     <string name="editor_rule_name">规则名称</string>

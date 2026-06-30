@@ -93,6 +93,7 @@ class MainActivity : ComponentActivity() {
             var isFloatingNavbar by remember { mutableStateOf(savedSettings.isFloatingNavbar) }
             var isLiquidGlass by remember { mutableStateOf(savedSettings.isLiquidGlass) }
             var applyIntervalMinutes by remember { mutableIntStateOf(savedSettings.applyIntervalMinutes) }
+            var autoApplyAfterEdit by remember { mutableStateOf(savedSettings.autoApplyAfterEdit) }
 
             var hasRoot by remember { mutableStateOf(false) }
             var rootChecked by remember { mutableStateOf(false) }
@@ -113,6 +114,7 @@ class MainActivity : ComponentActivity() {
                         isFloatingNavbar = isFloatingNavbar,
                         isLiquidGlass = isLiquidGlass,
                         applyIntervalMinutes = applyIntervalMinutes,
+                        autoApplyAfterEdit = autoApplyAfterEdit,
                     )
                 )
             }
@@ -125,6 +127,7 @@ class MainActivity : ComponentActivity() {
                     isFloatingNavbar = isFloatingNavbar,
                     isLiquidGlass = isLiquidGlass,
                     applyIntervalMinutes = applyIntervalMinutes,
+                    autoApplyAfterEdit = autoApplyAfterEdit,
                     onRetryRootCheck = {
                         scope.launch {
                             rootChecked = false
@@ -138,6 +141,7 @@ class MainActivity : ComponentActivity() {
                     onFloatingNavbarChange = { isFloatingNavbar = it; persistState() },
                     onLiquidGlassChange = { isLiquidGlass = it; persistState() },
                     onApplyIntervalChange = { applyIntervalMinutes = it; persistState() },
+                    onAutoApplyAfterEditChange = { autoApplyAfterEdit = it; persistState() },
                 )
             }
         }
@@ -152,11 +156,13 @@ private fun MainScreen(
     isFloatingNavbar: Boolean,
     isLiquidGlass: Boolean,
     applyIntervalMinutes: Int,
+    autoApplyAfterEdit: Boolean,
     onRetryRootCheck: () -> Unit,
     onThemeModeChange: (ColorSchemeMode) -> Unit,
     onFloatingNavbarChange: (Boolean) -> Unit,
     onLiquidGlassChange: (Boolean) -> Unit,
     onApplyIntervalChange: (Int) -> Unit,
+    onAutoApplyAfterEditChange: (Boolean) -> Unit,
 ) {
     val context = androidx.compose.ui.platform.LocalContext.current
     val pagerState = rememberPagerState(pageCount = { 4 })
@@ -265,11 +271,12 @@ private fun MainScreen(
                         refreshKey = homeRefreshKey,
                         extraBottomPadding = navBarHeight,
                     )
-                     1 -> RulesPageView(
+                    1 -> RulesPageView(
                         applyIntervalMinutes = applyIntervalMinutes,
+                        autoApplyAfterEdit = autoApplyAfterEdit,
                         extraBottomPadding = navBarHeight,
                     )
-                     2 -> SettingsPageView(
+                    2 -> SettingsPageView(
                         currentMode = themeMode,
                         onModeChange = onThemeModeChange,
                         isFloatingNavbar = isFloatingNavbar,
@@ -278,6 +285,8 @@ private fun MainScreen(
                         onLiquidGlassChange = onLiquidGlassChange,
                         applyIntervalMinutes = applyIntervalMinutes,
                         onApplyIntervalChange = onApplyIntervalChange,
+                        autoApplyAfterEdit = autoApplyAfterEdit,
+                        onAutoApplyAfterEditChange = onAutoApplyAfterEditChange,
                         extraBottomPadding = navBarHeight,
                     )
                     3 -> AboutPageContent(

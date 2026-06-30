@@ -8,8 +8,8 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.expandVertically
 import androidx.compose.animation.shrinkVertically
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -73,6 +73,8 @@ fun SettingsPageView(
     onLiquidGlassChange: (Boolean) -> Unit,
     applyIntervalMinutes: Int,
     onApplyIntervalChange: (Int) -> Unit,
+    autoApplyAfterEdit: Boolean,
+    onAutoApplyAfterEditChange: (Boolean) -> Unit,
     extraBottomPadding: Dp = 0.dp,
 ) {
     val context = LocalContext.current
@@ -203,6 +205,12 @@ fun SettingsPageView(
                                     intervalInput = applyIntervalMinutes.toString()
                                     showIntervalDialog = true
                                 }
+                            )
+                            SwitchPreference(
+                                title = stringResource(R.string.auto_apply_after_edit),
+                                summary = stringResource(R.string.auto_apply_after_edit_summary),
+                                checked = autoApplyAfterEdit,
+                                onCheckedChange = onAutoApplyAfterEditChange,
                             )
                         }
 

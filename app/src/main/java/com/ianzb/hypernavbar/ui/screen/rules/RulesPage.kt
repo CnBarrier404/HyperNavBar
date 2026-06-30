@@ -135,6 +135,7 @@ private fun formatElapsedTime(context: android.content.Context, timestamp: Long,
 @Composable
 fun RulesPageView(
     applyIntervalMinutes: Int = 0,
+    autoApplyAfterEdit: Boolean = true,
     extraBottomPadding: Dp = 0.dp,
 ) {
     val context = LocalContext.current
@@ -294,6 +295,49 @@ fun RulesPageView(
         }
     }
 
+    fun applyRules() {
+        isApplying = true
+        scope.launch {
+            try {
+                val cachedResults = fetchAndParseConfigs()
+                if (cachedResults.isNotEmpty()) {
+                    val mergedJson = RuleCombiner.combine(configs.toList(), cachedResults)
+                    val mode = SystemVersionDetector.getEffectiveOsMode(context)?.let { osmode ->
+                        try {
+                            RuleConverter.OsMode.valueOf(osmode.name)
+                        } catch (_: Exception) {
+                            RuleConverter.detectOsMode()
+                        }
+                    } ?: RuleConverter.detectOsMode()
+                    val targetContent = RuleConverter.convert(mergedJson, mode)
+                    val targetPath = RuleConverter.getTargetPath(mode)
+                    val totalApps = RuleCombiner.getTotalAppCount(cachedResults)
+                    if (hasRoot) {
+                        RootApplier.applyRules(targetContent, targetPath, context.cacheDir)
+                        isCustomApplied = RootApplier.isCustomRulesApplied(targetPath)
+                    }
+                    saveApplyState(System.currentTimeMillis(), totalApps, isCustomApplied)
+                    withContext(Dispatchers.Main) {
+                        @Suppress("LocalContext")
+                        val updateSuccessMsg = context.getString(R.string.rules_update_success, totalApps)
+                        Toast.makeText(context, updateSuccessMsg, Toast.LENGTH_SHORT).show()
+                        if (!hasRoot) {
+                            Toast.makeText(context, rulesRootRequiredText, Toast.LENGTH_SHORT).show()
+                        }
+                    }
+                }
+            } finally {
+                isApplying = false
+            }
+        }
+    }
+
+    fun maybeAutoApply() {
+        if (autoApplyAfterEdit) {
+            applyRules()
+        }
+    }
+
     fun resetAddState() {
         showAddSheet = false
         ruleType = RuleType.CLOUD
@@ -345,6 +389,7 @@ fun RulesPageView(
                                     withContext(Dispatchers.Main) {
                                         resetAddState()
                                     }
+                                    maybeAutoApply()
                                 },
                                 onFailure = { e ->
                                     withContext(Dispatchers.Main) {
@@ -388,6 +433,7 @@ fun RulesPageView(
                                         jsonInput = jsonContent
                                         resetAddState()
                                     }
+                                    maybeAutoApply()
                                 },
                                 onFailure = { e ->
                                     withContext(Dispatchers.Main) {
@@ -441,6 +487,7 @@ fun RulesPageView(
                     }
                     jsonInput = formattedJson
                     resetEditState()
+                    maybeAutoApply()
                 }
             } finally {
                 isSaving = false
@@ -451,56 +498,22 @@ fun RulesPageView(
     fun deleteConfig(config: RuleConfigSource) {
         RulesManager.remove(context, config.id)
         reloadConfigs()
+        maybeAutoApply()
         showDeleteDialog = null
     }
 
     fun moveUp(config: RuleConfigSource) {
         RulesManager.moveUp(context, config.id)
         reloadConfigs()
+        maybeAutoApply()
         showActionsSheet = false
     }
 
     fun moveDown(config: RuleConfigSource) {
         RulesManager.moveDown(context, config.id)
         reloadConfigs()
+        maybeAutoApply()
         showActionsSheet = false
-    }
-
-    fun applyRules() {
-        isApplying = true
-        scope.launch {
-            try {
-                val cachedResults = fetchAndParseConfigs()
-                if (cachedResults.isNotEmpty()) {
-                    val mergedJson = RuleCombiner.combine(configs.toList(), cachedResults)
-                    val mode = SystemVersionDetector.getEffectiveOsMode(context)?.let { osmode ->
-                        try {
-                            RuleConverter.OsMode.valueOf(osmode.name)
-                        } catch (_: Exception) {
-                            RuleConverter.detectOsMode()
-                        }
-                    } ?: RuleConverter.detectOsMode()
-                    val targetContent = RuleConverter.convert(mergedJson, mode)
-                    val targetPath = RuleConverter.getTargetPath(mode)
-                    val totalApps = RuleCombiner.getTotalAppCount(cachedResults)
-                    if (hasRoot) {
-                        RootApplier.applyRules(targetContent, targetPath, context.cacheDir)
-                        isCustomApplied = RootApplier.isCustomRulesApplied(targetPath)
-                    }
-                    saveApplyState(System.currentTimeMillis(), totalApps, isCustomApplied)
-                    withContext(Dispatchers.Main) {
-                        @Suppress("LocalContext")
-                        val updateSuccessMsg = context.getString(R.string.rules_update_success, totalApps)
-                        Toast.makeText(context, updateSuccessMsg, Toast.LENGTH_SHORT).show()
-                        if (!hasRoot) {
-                            Toast.makeText(context, rulesRootRequiredText, Toast.LENGTH_SHORT).show()
-                        }
-                    }
-                }
-            } finally {
-                isApplying = false
-            }
-        }
     }
 
     LaunchedEffect(ruleType) {
@@ -808,6 +821,7 @@ fun RulesPageView(
                                     onSuccess = { result ->
                                         RulesManager.updateRefreshTime(context, cfg.id, System.currentTimeMillis(), result.appCount, result.configName, result.rawJson)
                                         reloadConfigs()
+                                        maybeAutoApply()
                                         actionsTarget = actionsTarget?.copy(
                                             lastRefreshTime = System.currentTimeMillis(),
                                             appCount = result.appCount,
@@ -997,6 +1011,7 @@ fun RulesPageView(
                                         draggedConfigId = null
                                         draggedOriginalIndex = -1
                                         dragOffsetY = 0f
+                                        maybeAutoApply()
                                     },
                                     onDragCancel = {
                                         draggedConfigId = null
@@ -1034,13 +1049,14 @@ fun RulesPageView(
                                 },
                                 modifier = Modifier.weight(1f),
                             )
-                            Switch(
+                             Switch(
                                 checked = config.enabled,
                                 onCheckedChange = { enabled ->
                                     val updated = config.copy(enabled = enabled)
                                     RulesManager.update(context, updated)
                                     val idx = configs.indexOfFirst { it.id == config.id }
                                     if (idx >= 0) configs[idx] = updated
+                                    maybeAutoApply()
                                 },
                                 modifier = Modifier
                                     .padding(end = 12.dp)
