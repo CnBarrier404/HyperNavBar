@@ -51,7 +51,9 @@ jobs:
         shell: pwsh
 
       - name: 构建 Debug APK
-        run: ./gradlew assembleDebug
+        run: |
+          chmod +x gradlew
+          ./gradlew assembleDebug
 
       - name: 重命名 APK
         run: |
