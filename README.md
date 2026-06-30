@@ -4,7 +4,7 @@
 
 ### 小米 HyperOS 小白条沉浸规则管理工具
 
-[规则文档](docs/rule.md) | [更新日志](changelog.md) | [规则仓库](https://github.com/HyperNavBar/HyperNavBarRules) | [Telegram 群组](https://t.me/HyperNavBar)
+[适配文档](docs/tutorial.md) | [更新日志](changelog.md) | [规则仓库](https://github.com/HyperNavBar/HyperNavBarRules) | [Telegram 群组](https://t.me/HyperNavBar)
 
 [![GitHub License](https://img.shields.io/github/license/HyperNavBar/HyperNavBar)](LICENSE)
 [![GitHub Issues](https://img.shields.io/github/issues/HyperNavBar/HyperNavBar)](https://github.com/HyperNavBar/HyperNavBar/issues)
@@ -78,7 +78,7 @@ cd HyperNavBar
 
 ### 相关信息
 
-[点击此处](docs/rule.md) 查看规则编写说明  
+[点击此处](docs/tutorial.md) 查看规则适配与格式说明  
 [点击此处](changelog.md) 查看更新日志  
 [点击此处](https://github.com/HyperNavBar/HyperNavBarRules) 查看规则仓库  
 [前往 Telegram 群组](https://t.me/HyperNavBar) 与其他贡献者交流
@@ -91,7 +91,7 @@ cd HyperNavBar
 
 - [提交 Pull Request](https://github.com/HyperNavBar/HyperNavBar/pulls) 贡献代码
 - [规则仓库](https://github.com/HyperNavBar/HyperNavBarRules) 贡献适配规则
-- 查看 [规则文档](docs/rule.md) 了解规则编写说明
+- 查看 [适配文档](docs/tutorial.md) 了解规则编写说明
 
 <br>
 
@@ -115,4 +115,5 @@ cd HyperNavBar
 [![Star History Chart](https://api.star-history.com/svg?repos=HyperNavBar/HyperNavBar&type=Date)](https://www.star-history.com/#HyperNavBar/HyperNavBar&Date)
 
 [tg_badge]: https://img.shields.io/badge/TG-群组-4991D3?logo=telegram
+
 [tg_url]: https://t.me/HyperNavBar

@@ -277,7 +277,7 @@ class FloatingIdentifyService : Service() {
 
         val layout = LinearLayout(this).apply {
             orientation = LinearLayout.VERTICAL
-            setPadding(dp(14), dp(12), dp(14), dp(12))
+            setPadding(dp(10), dp(8), dp(10), dp(8))
             background = GradientDrawable().apply {
                 setColor(argb(0xE0, 0x1C, 0x1C, 0x1E))
                 cornerRadius = dp(18).toFloat()
@@ -292,7 +292,7 @@ class FloatingIdentifyService : Service() {
         val titleText = TextView(this).apply {
             text = getString(R.string.editor_floating_title)
             setTextColor(Color.WHITE)
-            textSize = 14f
+            textSize = 13f
             typeface = Typeface.DEFAULT_BOLD
         }
         titleRow.addView(titleText, LinearLayout.LayoutParams(
@@ -320,13 +320,13 @@ class FloatingIdentifyService : Service() {
             orientation = LinearLayout.VERTICAL
         }
         infoContainer!!.addView(createInfoRow(
-            getString(R.string.editor_floating_pkg), waiting, Color.WHITE, 10f, 13f
+            getString(R.string.editor_floating_pkg), waiting, Color.WHITE, 10f, 12f
         ) { tvPkgValue = it })
         infoContainer!!.addView(createInfoRow(
-            getString(R.string.editor_floating_app_name), waiting, Color.WHITE, 10f, 13f
+            getString(R.string.editor_floating_app_name), waiting, Color.WHITE, 10f, 12f
         ) { tvAppValue = it })
         infoContainer!!.addView(createInfoRow(
-            getString(R.string.editor_floating_activity), waiting, Color.WHITE, 10f, 13f
+            getString(R.string.editor_floating_activity), waiting, Color.WHITE, 10f, 12f
         ) { tvActivityValue = it })
         layout.addView(infoContainer!!)
 
@@ -337,9 +337,10 @@ class FloatingIdentifyService : Service() {
         }
         val scrollView = ScrollView(this).apply {
             layoutParams = LinearLayout.LayoutParams(
-                ViewGroup.LayoutParams.MATCH_PARENT, dp(160)
+                ViewGroup.LayoutParams.MATCH_PARENT, dp(120)
             )
             isVerticalScrollBarEnabled = true
+            visibility = View.GONE
             addView(historyContainer)
         }
         layout.addView(scrollView)
@@ -429,11 +430,11 @@ class FloatingIdentifyService : Service() {
         return TextView(this).apply {
             this.text = text
             setTextColor(Color.WHITE)
-            textSize = 13f
+            textSize = 12f
             gravity = Gravity.CENTER
             isClickable = true
             isFocusable = true
-            setPadding(dp(14), dp(8), dp(14), dp(8))
+            setPadding(dp(10), dp(6), dp(10), dp(6))
             background = GradientDrawable().apply {
                 setColor(bgColor)
                 cornerRadius = dp(18).toFloat()
