@@ -274,6 +274,7 @@ fun JsonRuleEditorSheet(
         val appJson = nbiRules.optJSONObject(pkg)
         if (appJson == null) {
             nbiRules.put(pkg, JSONObject().apply {
+                put("enable", true)
                 put("name", appName)
                 put("activityRules", JSONObject())
             })
@@ -282,7 +283,14 @@ fun JsonRuleEditorSheet(
         }
         val rules = nbiRules.optJSONObject(pkg)?.optJSONObject("activityRules")
         if (rules != null && !rules.has(activityName)) {
-            rules.put(activityName, JSONObject().apply { put("mode", 0) })
+            rules.put(activityName, JSONObject().apply {
+                put("mode", 0)
+                put("color", 1)
+                put("sf_sampling_mode", 0)
+                put("dialogMode", 1)
+                put("popupMode", 1)
+                put("appNavColorDisabled", 0)
+            })
         }
         saveRoot()
         selectedPackage = pkg
@@ -828,6 +836,25 @@ fun JsonRuleEditorSheet(
                             summary = if (appName.isNotEmpty()) "$appName${stringResource(R.string.editor_tap_edit)}" else stringResource(R.string.editor_not_set_tap_edit),
                         )
                     }
+                }
+            }
+            // App-level enable toggle
+            item {
+                val appEnabled = appForSelected?.optBoolean("enable", false) ?: false
+                Card(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(bottom = 6.dp),
+                ) {
+                    SwitchPreference(
+                        checked = appEnabled,
+                        onCheckedChange = { checked ->
+                            appForSelected?.put("enable", checked)
+                            saveRoot()
+                        },
+                        title = stringResource(R.string.editor_app_enable),
+                        summary = stringResource(R.string.editor_app_enable_summary),
+                    )
                 }
             }
             item {

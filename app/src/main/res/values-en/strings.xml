@@ -187,6 +187,8 @@
     <string name="editor_popup_summary">popupMode</string>
     <string name="editor_disable_app_nav_color">Disable App Navbar Color</string>
     <string name="editor_disable_app_nav_color_summary">appNavColorDisabled</string>
+    <string name="editor_app_enable">Enable Rule</string>
+    <string name="editor_app_enable_summary">enable</string>
     <string name="editor_delete_activity">Delete This Activity</string>
     <string name="editor_package_name">Package Name</string>
     <string name="editor_app_name_optional">App Name (Optional)</string>
