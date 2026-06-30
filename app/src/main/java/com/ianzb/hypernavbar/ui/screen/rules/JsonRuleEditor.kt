@@ -285,7 +285,7 @@ fun JsonRuleEditorSheet(
         if (rules != null && !rules.has(activityName)) {
             rules.put(activityName, JSONObject().apply {
                 put("mode", 0)
-                put("color", 1)
+                put("color", JSONObject.NULL)
                 put("sf_sampling_mode", 0)
                 put("dialogMode", 1)
                 put("popupMode", 1)
@@ -653,7 +653,7 @@ fun JsonRuleEditorSheet(
                     if (!rules.has(actName)) {
                         val newAct = JSONObject()
                         newAct.put("mode", 1)
-                        newAct.put("color", 1)
+                        newAct.put("color", JSONObject.NULL)
                         newAct.put("sf_sampling_mode", 0)
                         newAct.put("dialogMode", 1)
                         newAct.put("popupMode", 1)
