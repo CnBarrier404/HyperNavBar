@@ -13,8 +13,8 @@ android {
         applicationId = "com.ianzb.hypernavbar"
         minSdk = 35
         targetSdk = 37
-        versionCode = 6
-        versionName = "1.1.4"
+        versionCode = 7
+        versionName = "1.2.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -84,6 +84,7 @@ dependencies {
     implementation(libs.miuix.navigation)
     implementation(libs.material.icons.extended)
 }
+
 
 
 
