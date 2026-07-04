@@ -112,6 +112,8 @@
     <string name="tl_ksp_summary">Apache-2.0</string>
     <string name="tl_coroutines">Kotlin Coroutines</string>
     <string name="tl_coroutines_summary">Apache-2.0</string>
+    <string name="tl_material_icons">Material Icons Extended</string>
+    <string name="tl_material_icons_summary">Apache-2.0</string>
 
     <!-- Rule editor – general -->
     <string name="rules_local_rule">本地规则</string>

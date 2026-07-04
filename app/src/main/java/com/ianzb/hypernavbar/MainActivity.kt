@@ -20,11 +20,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.rounded.Rule
-import androidx.compose.material.icons.rounded.Home
-import androidx.compose.material.icons.rounded.Info
-import androidx.compose.material.icons.rounded.Settings
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -63,6 +58,11 @@ import top.yukonga.miuix.kmp.blur.highlight.Highlight
 import top.yukonga.miuix.kmp.blur.layerBackdrop
 import top.yukonga.miuix.kmp.blur.rememberLayerBackdrop
 import top.yukonga.miuix.kmp.blur.textureBlur
+import top.yukonga.miuix.kmp.icon.MiuixIcons
+import top.yukonga.miuix.kmp.icon.extended.Home
+import top.yukonga.miuix.kmp.icon.extended.Info
+import top.yukonga.miuix.kmp.icon.extended.ListView
+import top.yukonga.miuix.kmp.icon.extended.Settings
 import top.yukonga.miuix.kmp.theme.ColorSchemeMode
 import top.yukonga.miuix.kmp.theme.MiuixTheme
 import kotlin.math.abs
@@ -178,10 +178,10 @@ private fun MainScreen(
         stringResource(R.string.tab_about)
     )
     val icons = listOf(
-        Icons.Rounded.Home,
-        Icons.AutoMirrored.Rounded.Rule,
-        Icons.Rounded.Settings,
-        Icons.Rounded.Info
+        MiuixIcons.Home,
+        MiuixIcons.ListView,
+        MiuixIcons.Settings,
+        MiuixIcons.Info
     )
 
     LaunchedEffect(pagerState.currentPage) {
