@@ -145,6 +145,39 @@ jobs:
           path: ${{ env.PROGRAM_NAME }}_${{ steps.update_version.outputs.final_version }}.apk
           retention-days: 30
 
+      - name: 上传到Telegram
+        env:
+          CHANNEL_ID: ${{ secrets.CHANNEL_ID }}
+          BOT_TOKEN: ${{ secrets.BOT_TOKEN }}
+          APK_FILE: "${{ github.workspace }}/${{ env.PROGRAM_NAME }}_${{ steps.update_version.outputs.final_version }}.apk"
+          RUNNER_NAME: "${{ github.actor }}"
+          RELEASE_VERSION: "${{ steps.update_version.outputs.final_version }}"
+        run: |
+          ESCAPED_CAPTION=$(python3 -c '
+          import os, re
+
+          def escape_md_v2(text):
+              return re.sub(r"([_*\[\]()~`>#+\-=|{}.!\\])", r"\\\1", text)
+
+          program_name = escape_md_v2(os.environ.get("PROGRAM_NAME", ""))
+          release_version = os.environ.get("RELEASE_VERSION", "")
+          actor = escape_md_v2(os.environ.get("RUNNER_NAME", ""))
+
+          msg_body = (
+              f"*{program_name}* `{release_version}`\n"
+              f"🚀 *New Release*\n"
+              f"Manually released by `{actor}`"
+          )
+
+          print(msg_body)
+          ')
+
+          curl -v -F chat_id=${CHANNEL_ID} \
+                  -F document=@"${APK_FILE}" \
+                  -F parse_mode="MarkdownV2" \
+                  -F caption="${ESCAPED_CAPTION}" \
+                  https://api.telegram.org/bot${BOT_TOKEN}/sendDocument
+
       - name: 显示构建信息
         run: Write-Host "Release ${{ steps.update_version.outputs.final_version }} 已发布"
         shell: pwsh
