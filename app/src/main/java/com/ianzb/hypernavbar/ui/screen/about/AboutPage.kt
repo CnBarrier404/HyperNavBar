@@ -71,6 +71,7 @@ import top.yukonga.miuix.kmp.basic.Text as MiuixText
 @Composable
 fun AboutPageContent(
     openLicensePage: () -> Unit,
+    isBlurEnabled: Boolean = true,
 ) {
     val topAppBarScrollBehavior = MiuixScrollBehavior()
     val lazyListState = rememberLazyListState()
@@ -93,7 +94,7 @@ fun AboutPageContent(
 
     val backdrop = rememberBlurBackdrop()
     val collapsed by remember { derivedStateOf { scrollProgress == 1f } }
-    val blurActive by remember(backdrop) { derivedStateOf { backdrop != null && scrollProgress == 1f } }
+    val blurActive by remember(backdrop, isBlurEnabled) { derivedStateOf { isBlurEnabled && backdrop != null && scrollProgress == 1f } }
 
     Scaffold(
         topBar = {
@@ -117,7 +118,7 @@ fun AboutPageContent(
         },
         contentWindowInsets = WindowInsets.systemBars.add(WindowInsets.displayCutout).only(WindowInsetsSides.Horizontal),
     ) { innerPadding ->
-        Box(modifier = if (backdrop != null) Modifier.layerBackdrop(backdrop) else Modifier) {
+        Box(modifier = if (isBlurEnabled && backdrop != null) Modifier.layerBackdrop(backdrop) else Modifier) {
             AboutContent(
                 padding = PaddingValues(
                     top = innerPadding.calculateTopPadding(),

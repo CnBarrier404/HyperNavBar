@@ -26,10 +26,11 @@ class LicenseActivity : ComponentActivity() {
         } catch (_: Exception) {
             ColorSchemeMode.System
         }
+        val isBlurEnabled = savedSettings.isBlurEnabled
 
         setContent {
             AppTheme(themeMode = themeMode) {
-                LicensePageContent(onBack = { finish() })
+                LicensePageContent(onBack = { finish() }, isBlurEnabled = isBlurEnabled)
             }
         }
     }

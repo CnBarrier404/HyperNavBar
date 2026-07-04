@@ -661,7 +661,7 @@ fun JsonRuleEditorSheet(
                         ?: JSONObject().also { app?.put("activityRules", it) }
                     if (!rules.has(actName)) {
                         val newAct = JSONObject()
-                        newAct.put("mode", 1)
+                        newAct.put("mode", 0)
                         newAct.put("color", JSONObject.NULL)
                         newAct.put("sf_sampling_mode", 0)
                         newAct.put("dialogMode", 1)

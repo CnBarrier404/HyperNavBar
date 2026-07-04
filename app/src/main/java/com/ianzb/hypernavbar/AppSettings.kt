@@ -11,6 +11,7 @@ data class AppSettings(
     val themeMode: String = "System",
     val isFloatingNavbar: Boolean = false,
     val isLiquidGlass: Boolean = false,
+    val isBlurEnabled: Boolean = true,
     val applyIntervalMinutes: Int = 0,
     val autoApplyAfterEdit: Boolean = true,
     val language: String = "",
@@ -22,6 +23,7 @@ data class AppSettings(
         json.put("themeMode", themeMode)
         json.put("isFloatingNavbar", isFloatingNavbar)
         json.put("isLiquidGlass", isLiquidGlass)
+        json.put("isBlurEnabled", isBlurEnabled)
         json.put("applyIntervalMinutes", applyIntervalMinutes)
         json.put("autoApplyAfterEdit", autoApplyAfterEdit)
         json.put("language", language)
@@ -38,6 +40,7 @@ data class AppSettings(
                     themeMode = obj.optString("themeMode", "System"),
                     isFloatingNavbar = obj.optBoolean("isFloatingNavbar", false),
                     isLiquidGlass = obj.optBoolean("isLiquidGlass", false),
+                    isBlurEnabled = obj.optBoolean("isBlurEnabled", true),
                     applyIntervalMinutes = obj.optInt("applyIntervalMinutes", 0),
                     autoApplyAfterEdit = obj.optBoolean("autoApplyAfterEdit", true),
                     language = obj.optString("language", ""),
@@ -53,6 +56,7 @@ data class AppSettings(
         private const val KEY_THEME_MODE = "theme_mode"
         private const val KEY_FLOATING_NAVBAR = "floating_navbar"
         private const val KEY_LIQUID_GLASS = "liquid_glass"
+        private const val KEY_BLUR_ENABLED = "blur_enabled"
         private const val KEY_APPLY_INTERVAL = "apply_interval"
         private const val KEY_AUTO_APPLY_AFTER_EDIT = "auto_apply_after_edit"
 
@@ -64,6 +68,7 @@ data class AppSettings(
                 themeMode = prefs.getString(KEY_THEME_MODE, "System") ?: "System",
                 isFloatingNavbar = prefs.getBoolean(KEY_FLOATING_NAVBAR, false),
                 isLiquidGlass = prefs.getBoolean(KEY_LIQUID_GLASS, false),
+                isBlurEnabled = prefs.getBoolean(KEY_BLUR_ENABLED, true),
                 applyIntervalMinutes = prefs.getInt(KEY_APPLY_INTERVAL, 0),
                 autoApplyAfterEdit = prefs.getBoolean(KEY_AUTO_APPLY_AFTER_EDIT, true),
                 language = language,
@@ -76,6 +81,7 @@ data class AppSettings(
                 putString(KEY_THEME_MODE, settings.themeMode)
                 putBoolean(KEY_FLOATING_NAVBAR, settings.isFloatingNavbar)
                 putBoolean(KEY_LIQUID_GLASS, settings.isLiquidGlass)
+                putBoolean(KEY_BLUR_ENABLED, settings.isBlurEnabled)
                 putInt(KEY_APPLY_INTERVAL, settings.applyIntervalMinutes)
                 putBoolean(KEY_AUTO_APPLY_AFTER_EDIT, settings.autoApplyAfterEdit)
             }

@@ -92,6 +92,7 @@ class MainActivity : ComponentActivity() {
             }
             var isFloatingNavbar by remember { mutableStateOf(savedSettings.isFloatingNavbar) }
             var isLiquidGlass by remember { mutableStateOf(savedSettings.isLiquidGlass) }
+            var isBlurEnabled by remember { mutableStateOf(savedSettings.isBlurEnabled) }
             var applyIntervalMinutes by remember { mutableIntStateOf(savedSettings.applyIntervalMinutes) }
             var autoApplyAfterEdit by remember { mutableStateOf(savedSettings.autoApplyAfterEdit) }
 
@@ -113,6 +114,7 @@ class MainActivity : ComponentActivity() {
                         themeMode = themeMode.name,
                         isFloatingNavbar = isFloatingNavbar,
                         isLiquidGlass = isLiquidGlass,
+                        isBlurEnabled = isBlurEnabled,
                         applyIntervalMinutes = applyIntervalMinutes,
                         autoApplyAfterEdit = autoApplyAfterEdit,
                     )
@@ -126,6 +128,7 @@ class MainActivity : ComponentActivity() {
                     themeMode = themeMode,
                     isFloatingNavbar = isFloatingNavbar,
                     isLiquidGlass = isLiquidGlass,
+                    isBlurEnabled = isBlurEnabled,
                     applyIntervalMinutes = applyIntervalMinutes,
                     autoApplyAfterEdit = autoApplyAfterEdit,
                     onRetryRootCheck = {
@@ -140,6 +143,7 @@ class MainActivity : ComponentActivity() {
                     onThemeModeChange = { themeMode = it; persistState() },
                     onFloatingNavbarChange = { isFloatingNavbar = it; persistState() },
                     onLiquidGlassChange = { isLiquidGlass = it; persistState() },
+                    onBlurEnabledChange = { isBlurEnabled = it; persistState() },
                     onApplyIntervalChange = { applyIntervalMinutes = it; persistState() },
                     onAutoApplyAfterEditChange = { autoApplyAfterEdit = it; persistState() },
                 )
@@ -155,12 +159,14 @@ private fun MainScreen(
     themeMode: ColorSchemeMode,
     isFloatingNavbar: Boolean,
     isLiquidGlass: Boolean,
+    isBlurEnabled: Boolean,
     applyIntervalMinutes: Int,
     autoApplyAfterEdit: Boolean,
     onRetryRootCheck: () -> Unit,
     onThemeModeChange: (ColorSchemeMode) -> Unit,
     onFloatingNavbarChange: (Boolean) -> Unit,
     onLiquidGlassChange: (Boolean) -> Unit,
+    onBlurEnabledChange: (Boolean) -> Unit,
     onApplyIntervalChange: (Int) -> Unit,
     onAutoApplyAfterEditChange: (Boolean) -> Unit,
 ) {
@@ -196,7 +202,7 @@ private fun MainScreen(
         drawRect(surfaceColor)
         drawContent()
     }
-    val blurActive = true
+    val blurActive = isBlurEnabled
 
     val navBarMode = if (!isFloatingNavbar) 0 else if (!isLiquidGlass) 1 else 2
 
@@ -268,12 +274,14 @@ private fun MainScreen(
                         hasRoot = hasRoot,
                         rootChecked = rootChecked,
                         onRetryRootCheck = onRetryRootCheck,
+                        isBlurEnabled = isBlurEnabled,
                         refreshKey = homeRefreshKey,
                         extraBottomPadding = navBarHeight,
                     )
                     1 -> RulesPageView(
                         applyIntervalMinutes = applyIntervalMinutes,
                         autoApplyAfterEdit = autoApplyAfterEdit,
+                        isBlurEnabled = isBlurEnabled,
                         extraBottomPadding = navBarHeight,
                     )
                     2 -> SettingsPageView(
@@ -283,6 +291,8 @@ private fun MainScreen(
                         onFloatingNavbarChange = onFloatingNavbarChange,
                         isLiquidGlass = isLiquidGlass,
                         onLiquidGlassChange = onLiquidGlassChange,
+                        isBlurEnabled = isBlurEnabled,
+                        onBlurEnabledChange = onBlurEnabledChange,
                         applyIntervalMinutes = applyIntervalMinutes,
                         onApplyIntervalChange = onApplyIntervalChange,
                         autoApplyAfterEdit = autoApplyAfterEdit,
@@ -293,6 +303,7 @@ private fun MainScreen(
                         openLicensePage = {
                             context.startActivity(Intent(context, LicenseActivity::class.java))
                         },
+                        isBlurEnabled = isBlurEnabled,
                     )
                 }
             }

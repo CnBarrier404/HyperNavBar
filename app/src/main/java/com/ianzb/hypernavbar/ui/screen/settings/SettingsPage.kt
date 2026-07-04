@@ -74,6 +74,8 @@ fun SettingsPageView(
     onFloatingNavbarChange: (Boolean) -> Unit,
     isLiquidGlass: Boolean,
     onLiquidGlassChange: (Boolean) -> Unit,
+    isBlurEnabled: Boolean,
+    onBlurEnabledChange: (Boolean) -> Unit,
     applyIntervalMinutes: Int,
     onApplyIntervalChange: (Int) -> Unit,
     autoApplyAfterEdit: Boolean,
@@ -86,7 +88,7 @@ fun SettingsPageView(
     val title = stringResource(R.string.tab_settings)
 
     val backdrop = rememberBlurBackdrop()
-    val blurActive = backdrop != null
+    val blurActive = isBlurEnabled && backdrop != null
     val barColor = if (blurActive) Color.Transparent else MiuixTheme.colorScheme.surface
 
     var showIntervalDialog by remember { mutableStateOf(false) }
@@ -181,7 +183,7 @@ fun SettingsPageView(
         contentWindowInsets = WindowInsets.systemBars.add(WindowInsets.displayCutout).only(WindowInsetsSides.Horizontal),
     ) { innerPadding ->
         Box(
-            modifier = if (backdrop != null) Modifier.layerBackdrop(backdrop) else Modifier
+            modifier = if (isBlurEnabled && backdrop != null) Modifier.layerBackdrop(backdrop) else Modifier
         ) {
             LazyColumn(
                 modifier = Modifier
@@ -269,6 +271,13 @@ fun SettingsPageView(
                                         onCheckedChange = onLiquidGlassChange
                                     )
                                 }
+
+                                SwitchPreference(
+                                    title = stringResource(R.string.blur_enabled),
+                                    summary = stringResource(R.string.blur_enabled_summary),
+                                    checked = isBlurEnabled,
+                                    onCheckedChange = onBlurEnabledChange
+                                )
                             }
                         }
 

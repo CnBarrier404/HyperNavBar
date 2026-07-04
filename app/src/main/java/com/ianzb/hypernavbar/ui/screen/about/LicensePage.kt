@@ -53,10 +53,11 @@ data class LibraryInfo(
 @Composable
 fun LicensePageContent(
     onBack: () -> Unit,
+    isBlurEnabled: Boolean = true,
 ) {
     val topAppBarScrollBehavior = MiuixScrollBehavior()
     val backdrop = rememberBlurBackdrop()
-    val blurActive = backdrop != null
+    val blurActive = isBlurEnabled && backdrop != null
     val barColor = if (blurActive) Color.Transparent else colorScheme.surface
 
     Scaffold(
@@ -121,7 +122,7 @@ fun LicensePageContent(
         }
 
         Box(
-            modifier = if (backdrop != null) Modifier.layerBackdrop(backdrop) else Modifier
+            modifier = if (isBlurEnabled && backdrop != null) Modifier.layerBackdrop(backdrop) else Modifier
         ) {
             LazyColumn(
                 state = lazyListState,

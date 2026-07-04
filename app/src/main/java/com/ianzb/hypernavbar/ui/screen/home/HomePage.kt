@@ -62,8 +62,8 @@ import top.yukonga.miuix.kmp.blur.layerBackdrop
 import top.yukonga.miuix.kmp.preference.RadioButtonPreference
 import top.yukonga.miuix.kmp.theme.LocalDismissState
 import top.yukonga.miuix.kmp.theme.MiuixTheme
-import top.yukonga.miuix.kmp.window.WindowDialog
 import top.yukonga.miuix.kmp.utils.PressFeedbackType
+import top.yukonga.miuix.kmp.window.WindowDialog
 import top.yukonga.miuix.kmp.basic.Text as MiuixText
 
 @SuppressLint("LocalContext")
@@ -72,6 +72,7 @@ fun HomePageView(
     hasRoot: Boolean,
     rootChecked: Boolean,
     onRetryRootCheck: () -> Unit,
+    isBlurEnabled: Boolean = true,
     refreshKey: Int = 0,
     extraBottomPadding: Dp = 0.dp,
 ) {
@@ -123,7 +124,7 @@ fun HomePageView(
     }
 
     val backdrop = rememberBlurBackdrop()
-    val blurActive = backdrop != null
+    val blurActive = isBlurEnabled && backdrop != null
     val barColor = if (blurActive) Color.Transparent else MiuixTheme.colorScheme.surface
 
     Scaffold(
@@ -139,7 +140,7 @@ fun HomePageView(
         contentWindowInsets = WindowInsets.systemBars.add(WindowInsets.displayCutout).only(WindowInsetsSides.Horizontal),
     ) { innerPadding ->
         Box(
-            modifier = if (backdrop != null) Modifier.layerBackdrop(backdrop) else Modifier
+            modifier = if (isBlurEnabled && backdrop != null) Modifier.layerBackdrop(backdrop) else Modifier
         ) {
             LazyColumn(
                 modifier = Modifier

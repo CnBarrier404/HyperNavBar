@@ -137,6 +137,7 @@ private fun formatElapsedTime(context: android.content.Context, timestamp: Long,
 fun RulesPageView(
     applyIntervalMinutes: Int = 0,
     autoApplyAfterEdit: Boolean = true,
+    isBlurEnabled: Boolean = true,
     extraBottomPadding: Dp = 0.dp,
 ) {
     val context = LocalContext.current
@@ -186,7 +187,7 @@ fun RulesPageView(
     var dragOffsetY by remember { mutableStateOf(0f) }
 
     val backdrop = rememberBlurBackdrop()
-    val blurActive = backdrop != null
+    val blurActive = isBlurEnabled && backdrop != null
     val barColor = if (blurActive) Color.Transparent else MiuixTheme.colorScheme.surface
 
     fun reloadConfigs() {
@@ -896,7 +897,7 @@ fun RulesPageView(
         )
 
         // Main content
-        Box(modifier = if (backdrop != null) Modifier.layerBackdrop(backdrop) else Modifier) {
+        Box(modifier = if (isBlurEnabled && backdrop != null) Modifier.layerBackdrop(backdrop) else Modifier) {
             LazyColumn(
                 modifier = Modifier
                     .fillMaxSize()
