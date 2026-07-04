@@ -13,8 +13,8 @@ android {
         applicationId = "com.ianzb.hypernavbar"
         minSdk = 35
         targetSdk = 37
-        versionCode = 9
-        versionName = "v1.3.0"
+        versionCode = 11
+        versionName = "v1.3.2"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
