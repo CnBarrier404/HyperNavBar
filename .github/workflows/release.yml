@@ -232,7 +232,7 @@ jobs:
           CHANNEL_ID: ${{ secrets.CHANNEL_ID }}
           BOT_TOKEN: ${{ secrets.BOT_TOKEN }}
           APK_FILE: "${{ github.workspace }}/${{ env.PROGRAM_NAME }}_${{ steps.update_version.outputs.final_version }}.apk"
-          RUNNER_NAME: "${{ github.actor }}"
+          ACTOR_NAME: "${{ github.actor }}"
           RELEASE_VERSION: "${{ steps.update_version.outputs.final_version }}"
           RELEASE_URL: "${{ steps.github_release.outputs.url }}"
           RELEASE_ASSETS: "${{ steps.github_release.outputs.assets }}"
@@ -254,7 +254,7 @@ jobs:
           program_name = escape_md_v2(os.environ.get("PROGRAM_NAME", ""))
           release_version = escape_md_v2_code(os.environ.get("RELEASE_VERSION", ""))
           release_tag = escape_md_v2_code(os.environ.get("RELEASE_TAG", ""))
-          actor = escape_md_v2_code(os.environ.get("RUNNER_NAME", ""))
+          actor = escape_md_v2_code(os.environ.get("ACTOR_NAME", ""))
           event_name = os.environ.get("EVENT_NAME", "")
           release_url = escape_md_v2_url(os.environ.get("RELEASE_URL", ""))
           assets = os.environ.get("RELEASE_ASSETS", "[]")
