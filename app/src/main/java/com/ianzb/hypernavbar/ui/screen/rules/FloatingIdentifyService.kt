@@ -49,6 +49,7 @@ class FloatingIdentifyService : Service() {
         const val EXTRA_ACTIVITY_NAME = "activity_name"
         private const val NOTIFICATION_CHANNEL_ID = "floating_identify_channel"
         private const val NOTIFICATION_ID = 2001
+        private const val UI_UPDATE_DEBOUNCE_MS = 100L
 
         @Volatile
         private var runningInstance: FloatingIdentifyService? = null
@@ -80,7 +81,8 @@ class FloatingIdentifyService : Service() {
                 if (activity.isNotEmpty()) currentActivity = activity
                 else if (pkgChanged) currentActivity = ""
                 addToHistory(pkg, appName, currentActivity)
-                handler.post { updateDisplayedInfo() }
+                // 使用去抖动更新UI
+                scheduleUiUpdate()
             }
         }
     }
@@ -116,15 +118,22 @@ class FloatingIdentifyService : Service() {
     private var initialTouchY: Float = 0f
     private var isDragging = false
     private var dragThreshold = 0f
+    private var uiUpdateRunnable: Runnable? = null
 
     private val foregroundReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent?) {
             if (intent?.action != AppIdentifyAccessibilityService.ACTION_FOREGROUND_CHANGED) return
-            currentPkg = intent.getStringExtra(AppIdentifyAccessibilityService.EXTRA_PACKAGE_NAME) ?: return
-            currentActivity = intent.getStringExtra(AppIdentifyAccessibilityService.EXTRA_ACTIVITY_NAME) ?: ""
-            currentApp = intent.getStringExtra(AppIdentifyAccessibilityService.EXTRA_APP_NAME) ?: ""
+            val pkg = intent.getStringExtra(AppIdentifyAccessibilityService.EXTRA_PACKAGE_NAME) ?: return
+            val activity = intent.getStringExtra(AppIdentifyAccessibilityService.EXTRA_ACTIVITY_NAME) ?: ""
+            val appName = intent.getStringExtra(AppIdentifyAccessibilityService.EXTRA_APP_NAME) ?: ""
+
+            val pkgChanged = currentPkg != pkg
+            currentPkg = pkg
+            currentApp = appName
+            if (activity.isNotEmpty()) currentActivity = activity
+            else if (pkgChanged) currentActivity = ""
             addToHistory(currentPkg, currentApp, currentActivity)
-            updateDisplayedInfo()
+            scheduleUiUpdate()
         }
     }
 
@@ -147,6 +156,7 @@ class FloatingIdentifyService : Service() {
 
     override fun onDestroy() {
         runningInstance = null
+        uiUpdateRunnable?.let { handler.removeCallbacks(it) }
         try {
             unregisterReceiver(foregroundReceiver)
         } catch (_: Exception) { }
@@ -542,6 +552,14 @@ class FloatingIdentifyService : Service() {
     }
 
     // ── Display update ────────────────────────────────────────────────
+
+    private fun scheduleUiUpdate() {
+        uiUpdateRunnable?.let { handler.removeCallbacks(it) }
+        uiUpdateRunnable = Runnable {
+            updateDisplayedInfo()
+        }
+        handler.postDelayed(uiUpdateRunnable!!, UI_UPDATE_DEBOUNCE_MS)
+    }
 
     private fun updateDisplayedInfo() {
         val waiting = getString(R.string.editor_floating_waiting)
