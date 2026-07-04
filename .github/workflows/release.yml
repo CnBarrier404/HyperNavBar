@@ -233,17 +233,11 @@ jobs:
           BOT_TOKEN: ${{ secrets.BOT_TOKEN }}
           APK_FILE: "${{ github.workspace }}/${{ env.PROGRAM_NAME }}_${{ steps.update_version.outputs.final_version }}.apk"
           ACTOR_NAME: "${{ github.actor }}"
-          RELEASE_VERSION: "${{ steps.update_version.outputs.final_version }}"
           RELEASE_URL: "${{ steps.github_release.outputs.url }}"
-          RELEASE_ASSETS: "${{ steps.github_release.outputs.assets }}"
-          RELEASE_TAG: "${{ steps.update_version.outputs.final_version }}"
           EVENT_NAME: "${{ github.event_name }}"
         run: |
           ESCAPED_CAPTION=$(python3 -c '
-          import json, os, re
-
-          def escape_md_v2(text):
-              return re.sub(r"([_*\[\]()~`>#+\-=|{}.!\\])", r"\\\1", text)
+          import os, re
 
           def escape_md_v2_code(text):
               return text.replace("\\", "\\\\").replace("`", "\\`")
@@ -251,33 +245,13 @@ jobs:
           def escape_md_v2_url(text):
               return re.sub(r"([)\\])", r"\\\1", text)
 
-          program_name = escape_md_v2(os.environ.get("PROGRAM_NAME", ""))
-          release_version = escape_md_v2_code(os.environ.get("RELEASE_VERSION", ""))
-          release_tag = escape_md_v2_code(os.environ.get("RELEASE_TAG", ""))
           actor = escape_md_v2_code(os.environ.get("ACTOR_NAME", ""))
           event_name = os.environ.get("EVENT_NAME", "")
           release_url = escape_md_v2_url(os.environ.get("RELEASE_URL", ""))
-          assets = os.environ.get("RELEASE_ASSETS", "[]")
 
-          download_url = ""
-          try:
-              parsed_assets = json.loads(assets)
-              if parsed_assets:
-                  download_url = parsed_assets[0].get("browser_download_url", "")
-          except json.JSONDecodeError:
-              download_url = ""
-
-          escaped_download_url = escape_md_v2_url(download_url)
-
-          lines = [
-              f"*{program_name}* `{release_version}`",
-              "*New GitHub Release*",
-              f"Tag: `{release_tag}`",
-          ]
+          lines = ["*New GitHub Release*"]
           if release_url:
               lines.append(f"Release: [View on GitHub]({release_url})")
-          if escaped_download_url:
-              lines.append(f"APK: [Download]({escaped_download_url})")
           if event_name == "workflow_dispatch":
               lines.append(f"Manually run by `{actor}`")
           msg_body = "\n".join(lines)
